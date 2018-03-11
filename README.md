@@ -42,11 +42,14 @@ this will install WhoAmI microservice components into the `whoami` directory in 
 create a file named `.env` in the root directory with the following contents
 
 ```
-GITHUB_KEY=github-key
-GITHUB_SECRET=github-secret
-MONGO_URI=mongodb://localhost:27017/whoami
+MONGODB_URI=mongodb://localhost:27017/whoami
 PORT=8080
-APP_URL=http://localhost:8080/
+```
+
+to use NodeJS cluster set additional variable
+
+```
+CLUSTER=true
 ```
 
 #### Local Deployment: START
@@ -73,6 +76,12 @@ create a project
 heroku create
 ```
 
+check `./Procfile` which should have the following contents
+
+```
+web: node server.js
+```
+
 add mongolab addon
 
 ```
@@ -85,25 +94,24 @@ get mongodb url and copy result
 heroku config:get MONGODB_URI
 ```
 
-get heroku info and copy `Web URL`
-
-```
-heroku info
-```
-
 set environment variables
 
 ```
-heroku config:set GITHUB_KEY=github-key
-heroku config:set GITHUB_SECRET=github-secret
 heroku config:set MONGODB_URI=value-got-previously-from-heroku
-heroku config:set APP_URL=application-url-got-previously-from-heroku
+heroku config:set PORT=8080
 ```
 
-push repo to heroku
+build application and push to heroku
 
 ```
+gulp build
 git push heroku master
+```
+
+or use a single command
+
+```
+npm run heroku-deploy
 ```
 
 open on heroku
@@ -123,7 +131,7 @@ heroku local
 now open your browser and type in the address bar
 
 ```
-http://localhost:5000/
+http://localhost:8080/
 ```
 
 ### Testing
