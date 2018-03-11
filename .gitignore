@@ -1,0 +1,10 @@
+node_modules/
+.env
+.*.env
+*.log
+public/js/*.*
+!public/js/.gitkeep
+public/css/*.css
+!public/css/.gitkeep
+public/fonts/*.*
+!public/fonts/*.gitkeep
