@@ -1,0 +1,131 @@
+// bootstrap colors
+$primary: #a7ffeb;
+$primary-light: #ddffff;
+$primary-dark: #75ccb9;
+
+$black: #000000;
+$white: #ffffff;
+$grey: #949494;
+$lightgrey: #f0f0f0;
+
+.info {
+	background: $primary-dark;
+	color: $black;
+}
+
+h1, h2, h3, h4, h5, p, table, .panel-heading {
+	&:hover {
+		cursor: default;
+	}
+}
+
+.spacer {
+	flex: 1 1 auto;
+	width: 100%;
+}
+
+.selected {
+	background: $lightgrey;
+	color: $black;
+}
+
+/* TRANSITIONS */
+	.hidable { // universal class for DOM objects with ng-show or ng-hide directives
+		transition: all linear 0.5s;
+		&.ng-hide {
+			opacity: 0;
+		}
+	}
+
+	.btn { // transition for buttons
+		transition: all linear 0.3s;
+		&:hover {
+			letter-spacing: 0.2em;
+			font-weight: bold;
+			text-transform: uppercase;
+			color: $lightgrey;
+		}
+	}
+
+/* CHARTS */
+#pie-1, #pie-2 {
+	height: auto!important;
+	margin: 0.5em;
+	max-height: 30vh;
+	max-width: 30vh;
+}
+
+/* TABLES */
+	table {
+		border-collapse: collapse;
+		background: transparent;
+		width: 100%;
+		line-height: 1.5em;
+		border-color: transparent;
+		thead {
+			display: table-row-group;
+			vertical-align: middle;
+			cursor: pointer;
+			transition: all linear 0.5s;
+			color: $grey;
+			text-transform: uppercase;
+			&:hover {
+				letter-spacing: 0.2em;
+				color: $black;
+				background: $lightgrey;
+			}
+		}
+		tbody {
+			display: table-row-group;
+			vertical-align: middle;
+			border-color: transparent;
+		}
+		tr {
+			display: table-row;
+			border: 1px solid;
+			border-left: 0;
+			border-right: 0;
+			border-top: 0;
+		}
+		td {
+			display: table-cell;
+			font-size: 1.1em;
+			padding: 0.5em;
+			&:hover {
+				cursor: default;
+			}
+		}
+	}
+
+#video {
+	margin: 0.5em;
+	width: 95%;
+}
+
+/* MODAL DASHBOARD */
+	modal-dashboard {
+		z-index: 10;
+		height: 100vh;
+		width: 100vw;
+		padding: 60px 25px 25px 25px;
+		color: $white;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: rgba(0,0,0, 0.9);
+		transition: 0.5s;
+	}
+
+	modal-dashboard .close {
+		color: $white;
+		font-size: 5vh;
+	}
+
+	modal-dashboard .info {
+		color: $black;
+	}
+
+	modal-dashboard .form-control {
+		display: inline-block;
+		max-width:19vw;
+	}

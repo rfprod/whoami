@@ -1,0 +1,320 @@
+<div flex layout="row" layout-align="center stretch" layout-padding layout-wrap>
+	<h3 class="mat-h3" flex="nogrow" layout="row" layout-align="start center">{{title}}</h3>
+	<span flex="nogrow" layout="row" layout-align="end center">
+		<a md-button href="https://github.com/rfprod/whoami" target=_blank>
+			<i class="fa fa-github"></i> {{buttons.github}}
+		</a>
+		<a md-button ng-click="toggleModal()" target=_blank>
+			<i class="fa fa-heartbeat"></i> {{buttons.diag}}
+		</a>
+	</span>
+</div>
+
+<md-card flex="100">
+	<md-card-content>
+		<h4 flex class="mat-h4">{{description}}</h4>
+		<span flex layout="row" layout-align="center center">
+			<md-button ng-click="getData()" class="hidable btn" ng-show="appStatsMode">{{buttons.whoami}}</md-button>
+			<md-button ng-click="switchAppStatsMode()" class="hidable btn" ng-show="!appStatsMode">{{buttons.stats}}</md-button>
+		</span>
+	</md-card-content>
+</md-card>
+
+<div flex="100" layout="row" layout-align="space-around stretch" layout-wrap ng-if="!appStatsMode">
+	<md-button ng-class="{selected: show.server}" ng-click="toggleTbody($event, 'server')">
+		<i class="fa fa-server"></i> server
+	</md-button>
+	<md-button ng-class="{selected: show.localStorage}" ng-click="toggleTbody($event, 'localStorage')">
+		<i class="fa fa-hdd-o"></i> local storage
+	</md-button>
+	<md-button ng-class="{selected: show.sessionStorage}" ng-click="toggleTbody($event, 'sessionStorage')">
+		<i class="fa fa-hdd-o"></i> session storage
+	</md-button>
+	<md-button ng-class="{selected: show.performance}" ng-click="toggleTbody($event, 'performance')">
+		<i class="fa fa-tachometer"></i> performance
+	</md-button>
+	<md-button ng-class="{selected: show.navigator}" ng-click="toggleTbody($event, 'navigator')">
+		<i class="fa fa-compass"></i> navigator
+	</md-button>
+	<md-button ng-class="{selected: show.bars}" ng-click="toggleTbody($event, 'bars')">
+		<i class="fa fa-bars"></i> bars
+	</md-button>
+	<md-button ng-class="{selected: show.screen}" ng-click="toggleTbody($event, 'screen')">
+		<i class="fa fa-desktop"></i> screen
+	</md-button>
+</div>
+
+<div flex="100" layout="column" layout-align="center stretch" ng-if="!appStatsMode">
+	<div flex class="hidable" ng-show="show.server" aria-hidden="true">
+		<table>
+			<thead>
+				<tr>
+					<th colspan="3" ng-click="toggleTbody($event, 'server')">server</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="info">
+					<td>IP Address</td>
+					<td>Language</td>
+					<td>User Agent</td>
+				</tr>
+				<tr>
+					<td>{{serverHeaders.ipaddress}}</td>
+					<td>{{serverHeaders.language}}</td>
+					<td>{{serverHeaders.useragent}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div flex ng-if="localStorageExists" class="hidable" ng-show="show.localStorage">
+		<table>
+			<thead>
+				<tr>
+					<th colspan="3" ng-click="toggleTbody($event, 'localStorage')">local storage</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="key in localStorageKeys" ng-if="localStorageKeys.length > 0">
+					<th class="info" ng-if="(!isObject(localStorage[key]) && localStorage[key] !== '') || (isObject(localStorage[key]) && objectLength(localStorage[key]) > 0)">{{key}}</th>
+					<td ng-if="!isObject(localStorage[key]) && localStorage[key] !== ''">{{localStorage[key]}}</td>
+					<td ng-if="isObject(localStorage[key]) && objectLength(localStorage[key]) > 0">
+						<table class="table table-condensed">
+							<tbody>
+								<tr ng-repeat="subKey in objectKeys(localStorage[key])">
+									<th class="info">{{subKey}}</th>
+									<td>{{localStorage[key][subKey]}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr ng-if="localStorageKeys.length === 0">
+					<td colspan="3" class="info">{{error.noData}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div flex ng-if="sessionStorageExists" class="hidable" ng-show="show.sessionStorage">
+		<table>
+			<thead>
+				<tr>
+					<th colspan="3" ng-click="toggleTbody($event, 'sessionStorage')">session storage</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="key in sessionStorageKeys" ng-if="sessionStorageKeys.length > 0">
+					<th class="info" ng-if="(!isObject(sessionStorage[key]) && sessionStorage[key] !== '') || (isObject(sessionStorage[key]) && objectLength(sessionStorage[key]) > 0)">{{key}}</th>
+					<td ng-if="!isObject(sessionStorage[key]) && sessionStorage[key] !== ''">{{sessionStorage[key]}}</td>
+					<td ng-if="isObject(sessionStorage[key]) && objectLength(sessionStorage[key]) > 0">
+						<table>
+							<tbody>
+								<tr ng-repeat="subKey in objectKeys(sessionStorage[key])">
+									<th class="info">{{subKey}}</th>
+									<td>{{sessionStorage[key][subKey]}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr ng-if="sessionStorageKeys.length === 0">
+					<td colspan="3" class="info">{{error.noData}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div flex ng-if="performanceExists" class="hidable" ng-show="show.performance">
+		<table>
+			<thead>
+				<tr>
+					<th colspan="3" ng-click="toggleTbody($event)">performance</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="key in performanceKeys" ng-if="performanceKeys.length > 0">
+					<th class="info" ng-if="(!isObject(performance[key]) && performance[key] !== '') || (isObject(performance[key]) && objectLength(performance[key]) > 0)">{{key}}</th>
+					<td ng-if="!isObject(performance[key]) && performance[key] !== ''">{{navigator[key]}}</td>
+					<td ng-if="isObject(performance[key]) && objectLength(performance[key]) > 0">
+						<table>
+							<tbody>
+								<tr ng-repeat="subKey in objectKeys(performance[key])">
+									<th class="info">{{subKey}}</th>
+									<td ng-if="key === 'timing'">{{performance[key][subKey] | date : "medium"}}</td>
+									<td ng-if="key !== 'timing'">{{performance[key][subKey]}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr ng-if="performanceKeys.length === 0">
+					<td colspan="3" class="info">{{error.noData}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div flex ng-if="navigatorExists" class="hidable" ng-show="show.navigator">
+		<table>
+			<thead>
+				<tr>
+					<th colspan="3" ng-click="toggleTbody($event)">navigator</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="key in navigatorKeys" ng-if="navigatorKeys.length > 0">
+					<th class="info" ng-if="(!isObject(navigator[key]) && navigator[key] !== '') || (isObject(navigator[key]) && objectLength(navigator[key]) > 0)">{{key}}</th>
+					<td ng-if="!isObject(navigator[key]) && navigator[key] !== ''">{{navigator[key]}}</td>
+					<td ng-if="isObject(navigator[key]) && objectLength(navigator[key]) > 0">
+						<table>
+							<tbody>
+								<tr ng-repeat="subKey in objectKeys(navigator[key])">
+									<th class="info">{{subKey}}</th>
+									<td>{{navigator[key][subKey]}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr ng-if="navigatorKeys.length === 0">
+					<td colspan="3" class="info">{{error.noData}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<span id="video" layout="row" layout-align="center center">
+			<video autoplay ng-if="videoStream && show.navigator">
+				<source ng-src="{{trustSrc(videoStream)}}" type="video/webm" />
+			</video>
+		</span>
+		<span ng-if="videoStream && show.navigator">
+			<table>
+				<thead>
+					<tr>
+						<th class="info">Media Devices Info</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="device in mediaDevices">
+					<tr>
+						<td title="device id"><i class="fa fa-info" title="{{device.deviceId}}"> device id</i></td>
+					</tr>
+					<tr>
+						<td title="label">{{device.label}}</td>
+					</tr>
+					<tr>
+						<td title="kind">{{device.kind}}</td>
+					</tr>
+					<tr>
+						<td title="group id"><i class="fa fa-info" title="{{device.groupId}}"> group id</td>
+					</tr>
+					<tr>
+						<td class="info"></td>
+					</tr>
+				</tbody>
+			</table>
+		</span>
+	</div>
+	<div flex ng-if="barsExist" class="hidable" ng-show="show.bars">
+		<table>
+			<thead>
+				<tr>
+					<th colspan="3" ng-click="toggleTbody($event)">bars</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="key in barsKeys" ng-if="barsKeys.length > 0">
+					<th class="info" ng-if="(!isObject(bars[key]) && bars[key] !== '') || (isObject(bars[key]) && objectLength(bars[key]) > 0)">{{key}}</th>
+					<td ng-if="!isObject(bars[key]) && bars[key] !== ''">{{bars[key]}}</td>
+					<td ng-if="isObject(bars[key]) && objectLength(bars[key]) > 0">
+						<table>
+							<tbody>
+								<tr ng-repeat="subKey in objectKeys(bars[key])">
+									<th class="info">{{subKey}}</th>
+									<td>{{bars[key][subKey]}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr ng-if="barsKeys.length === 0">
+					<td colspan="3" class="info">{{error.noData}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div flex ng-if="screenExists" class="hidable" ng-show="show.screen">
+		<table>
+			<thead>
+				<tr>
+					<th colspan="3" ng-click="toggleTbody($event)">screen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="key in screenKeys" ng-if="screenKeys.length > 0">
+					<th class="info" ng-if="(!isObject(screen[key]) && screen[key] !== '') || (isObject(screen[key]) && objectLength(screen[key]) > 0)">{{key}}</th>
+					<td ng-if="!isObject(screen[key]) && screen[key] !== ''">{{screen[key]}}</td>
+					<td ng-if="isObject(screen[key]) && objectLength(screen[key]) > 0">
+						<table>
+							<tbody>
+								<tr ng-repeat="subKey in objectKeys(screen[key])">
+									<th class="info">{{subKey}}</th>
+									<td>{{screen[key][subKey]}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr ng-if="screenKeys.length === 0">
+					<td colspan="3" class="info">{{error.noData}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+<div flex="100" id="app-stats" ng-if="appStatsMode">
+	<span layout="row" layout-align="center center" layout-wrap>
+		<canvas flex flex-xs="100" id="pie-1" class="chart chart-pie" ng-if="showChart && chart.userAgent.data.length > 0" chart-data="chart.userAgent.data" chart-labels="chart.userAgent.labels" options="chartOptions"></canvas>
+		<canvas flex flex-xs="100" id="pie-2" class="chart chart-pie" ng-if="showChart && chart.acceptLanguage.data.length > 0" chart-data="chart.acceptLanguage.data" chart-labels="chart.acceptLanguage.labels" options="chartOptions"></canvas>
+	</span>
+	<table>
+		<thead>
+			<tr>
+				<th colspan="3" ng-click="toggleTbody($event)">stats</th>
+			</tr>
+		</thead>
+		<tbody class="hidable" ng-show="show.stats">
+			<tr class="info">
+				<th>IP Address</th>
+				<th>Language</th>
+				<th>User Agent</th>
+			</tr>
+			<tr ng-repeat="item in appStats">
+				<td>{{item.serverHeaders[0].xForwardedFor}}</td>
+				<td>
+					<p ng-repeat="language in item.serverHeaders[0].acceptLanguage">{{language}}</p>
+				</td>
+				<td>
+					<p ng-repeat="agent in item.serverHeaders[0].userAgent">
+						{{agent}}
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<modal-dashboard class="hidable" ng-hide="!showModal" layout="column" layout-align="start center">
+	<md-button class="md-icon-button" ng-click="toggleModal()"><span>&times;</span></md-button>
+	<h4>{{modalText.title}}</h4>
+	<table flex="nogrow">
+		<tbody>
+			<tr ng-repeat="item in appDiagData.static">
+				<td class="info">{{item.name}}</td>
+				<td>{{item.value}}</td>
+			</tr>
+			<tr ng-repeat="item in appDiagData.dynamic">
+				<td class="info">{{item.name}}</td>
+				<td>{{item.value}}</td>
+			</tr>
+		<tbody>
+	</table>
+</modal-dashboard>
