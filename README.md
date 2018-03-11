@@ -1,5 +1,7 @@
 # WhoAmI microservice
 
+![build](https://travis-ci.org/rfprod/whoami.svg?branch=master)
+
 ## Overview
 
 WhoAmI service registers and logs request headers:
@@ -97,8 +99,12 @@ heroku config:get MONGODB_URI
 set environment variables
 
 ```
-heroku config:set MONGODB_URI=value-got-previously-from-heroku
 heroku config:set PORT=8080
+```
+
+edit local `.env` file manually, set Heroku mongo uri instead of local one
+```
+MONGODB_URI=value-got-previously-from-heroku
 ```
 
 build application and push to heroku
