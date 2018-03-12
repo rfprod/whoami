@@ -1,7 +1,5 @@
 'use strict';
 
-/*global browser, expect, element, by */
-
 describe('WhoAmI microservice: ', () => {
 
 	it('should load index view', (done) => {

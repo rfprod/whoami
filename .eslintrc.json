@@ -7,7 +7,7 @@
 	},
 	"extends": "eslint:recommended",
 	"parserOptions": {
-		"ecmaVersion": 6,
+		"ecmaVersion": 2017,
 		"ecmaFeatures": {
 			"jsx": true
 		},
@@ -34,6 +34,19 @@
 	},
 	"globals": {
 		"angular": true,
-		"$": true
+		"$": true,
+		// server tests
+		"it": true,
+		"describe": true,
+		"inject": true,
+		"expect": true,
+		"window": true,
+		"spyOn": true,
+		// e2e tests
+		"protractor": true,
+		"browser": true,
+		"expect": true,
+		"element": true,
+		"by": true
 	}
 }

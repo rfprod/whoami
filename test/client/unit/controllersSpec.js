@@ -1,7 +1,5 @@
 'use strict';
 
-/* global inject, expect, window, spyOn */
-
 beforeEach(module('whoamiControllers'));
 
 describe('WhoAmI controllers', () => {

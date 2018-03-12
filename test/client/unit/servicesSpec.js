@@ -1,7 +1,5 @@
 'use strict';
 
-/* global inject, expect */
-
 beforeEach(module('whoamiServices'));
 
 describe('WhoAmI services', () => {
