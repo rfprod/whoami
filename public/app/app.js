@@ -16,7 +16,7 @@ var whoami = angular.module('whoami', [
 
 whoami
 	.config(['$routeProvider', '$locationProvider', '$mdThemingProvider', 'usSpinnerConfigProvider',
-		function($routeProvider, $locationProvider, $mdThemingProvider, usSpinnerConfigProvider) {
+		($routeProvider, $locationProvider, $mdThemingProvider, usSpinnerConfigProvider) => {
 			$routeProvider
 				.when('/', {
 					templateUrl: '/public/app/views/index.html',
@@ -60,7 +60,7 @@ whoami
 		}
 	])
 	.run(['$rootScope', '$route', '$window',
-		function ($rootScope, $route, $window) {
+		($rootScope, $route, $window) => {
 			/*
 			*	TODO
 			*/

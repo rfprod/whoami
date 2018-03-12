@@ -12,6 +12,8 @@ const gulp = require('gulp'),
 	mocha = require('gulp-mocha'),
 	karmaServer = require('karma').Server,
 	sass = require('gulp-sass'),
+	babel = require('gulp-babel'),
+	sourcemaps = require('gulp-sourcemaps'),
 	cssnano = require('gulp-cssnano'),
 	autoprefixer = require('gulp-autoprefixer'),
 	spawn = require('child_process').spawn,
@@ -108,10 +110,15 @@ gulp.task('clean-build', () => {
 gulp.task('pack-app-js', () => {
 	return gulp.src('./public/app/*.js')
 		.pipe(plumber())
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			presets: ['env']
+		}))
 		.pipe(concat('packed-app.js'))
 		.pipe(uglify())
 		.pipe(plumber.stop())
 		.pipe(rename('packed-app.min.js'))
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./public/js'));
 });
 
