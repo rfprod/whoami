@@ -40,7 +40,7 @@ module.exports = {
 					});
 				});
 			} else {
-				console.log('default log entries exists');
+				console.log('default log entries exist');
 				callback(docs);
 			}
 		});
