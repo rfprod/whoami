@@ -101,7 +101,11 @@ module.exports = function (app, cwd, srvInfo, DataInit, Log) {
 	app.get('/stats', (req, res) => {
 		Log.find({}, (err, doc) => {
 			if (err) throw err;
-			console.log('all logs', doc);
+			doc.forEach((item1) => {
+				item1.serverHeaders.forEach((item2) => {
+					item2.xForwardedFor = item2.xForwardedFor.replace(/\.\d+\.\d+$/, '.***.***');
+				});
+			});
 			res.setHeader('Cache-Control', 'no-cache, no-store');
 			res.format({
 				'application/json': function(){
