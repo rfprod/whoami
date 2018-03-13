@@ -81,7 +81,7 @@ heroku create
 check `./Procfile` which should have the following contents
 
 ```
-web: node server.js
+web: npm run heroku-start
 ```
 
 add mongolab addon
