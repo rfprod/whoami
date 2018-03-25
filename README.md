@@ -103,6 +103,7 @@ heroku config:set PORT=8080
 ```
 
 edit local `.env` file manually, set Heroku mongo uri instead of local one
+
 ```
 MONGODB_URI=value-got-previously-from-heroku
 ```
@@ -162,7 +163,7 @@ $ npm run lint
 
 ## Heroku Documentation
 
-* [`Heroku Devcenter: Gerring started with nodejs`](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+* [`Heroku Devcenter: Getting started with nodejs`](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
 * [`Heroku Elements: Addons: Mongolab`](https://elements.heroku.com/addons/mongolab)
 
 ## License
