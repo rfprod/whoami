@@ -89,9 +89,12 @@ gulp.task('dont-gitignore-build', (done) => {
 			dontGitignoreBuild(gitignore, done);
 		} else {
 			gitignore = data.toString()
-				.replace(/public\/js\/\*\.min\.js\n/, '')
-				.replace(/public\/css\/\*\.min\.css\n/, '')
-				.replace(/public\/fonts\/\*\.\*\n/, '');
+				.replace(/public\/js\/\*\.\*\n/, '')
+				.replace(/!public\/js\/\.gitkeep/, '')
+				.replace(/public\/css\/\*\.css\n/, '')
+				.replace(/!public\/css\/\.gitkeep/, '')
+				.replace(/public\/fonts\/\*\.\*\n/, '')
+				.replace(/!public\/fonts\/\*\.gitkeep/, '');
 			console.log('./.gitignore exists, updated gitignore', gitignore);
 			dontGitignoreBuild(gitignore, done);
 		}
@@ -277,6 +280,10 @@ gulp.task('watch', () => {
 
 gulp.task('build', (done) => {
 	runSequence('clean-build', 'lint', 'pack-app-js', 'pack-app-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', done);
+});
+
+gulp.task('heroku-build', (done) => {
+	runSequence('pack-app-js', 'pack-app-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', done);
 });
 
 gulp.task('run-tests', (done) => {

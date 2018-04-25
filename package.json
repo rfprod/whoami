@@ -93,6 +93,6 @@
 		"mongo-start": "./check-db-dir.sh && ./mongo-start.sh",
 		"mongo-repair": "./check-db-dir.sh && ./mongo-repair.sh",
 		"heroku-deploy": "./heroku-deploy.sh",
-		"heroku-start": "node server.js"
+		"heroku-start": "node node_modules/gulp/bin/gulp heroku-build && node server.js"
 	}
 }
