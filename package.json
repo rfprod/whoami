@@ -92,7 +92,7 @@
 		"mongo-kill": "killall -15 mongod",
 		"mongo-start": "./check-db-dir.sh && ./mongo-start.sh",
 		"mongo-repair": "./check-db-dir.sh && ./mongo-repair.sh",
-		"heroku-deploy": "git push heroku master",
-		"heroku-start": "gulp build && node server.js"
+		"heroku-deploy": "./heroku-deploy.sh",
+		"heroku-start": "node server.js"
 	}
 }

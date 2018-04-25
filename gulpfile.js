@@ -16,6 +16,7 @@ const gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	cssnano = require('gulp-cssnano'),
 	autoprefixer = require('gulp-autoprefixer'),
+	fs = require('fs'),
 	spawn = require('child_process').spawn,
 	exec = require('child_process').exec;
 let node, mongo,
@@ -38,6 +39,64 @@ function killProcessByName(name){
 		}
 	});
 }
+
+function setEnvCluster(value, done) {
+	if (typeof value === 'boolean') {
+		fs.readFile('./.env', (err, data) => {
+			let env;
+			if (err) {
+				env = '';
+			} else {
+				env = data.toString();
+			}
+			if (env.indexOf('CLUSTER=') !== -1) {
+				env = env.replace(/CLUSTER=.*\n/, `CLUSTER=${value}\n`);
+			} else {
+				env += `CLUSTER=${value}\n`;
+			}
+			fs.writeFile('./.env', env, (err) => {
+				if (err) throw err;
+				console.log(`# > ENV > .env file edited: CLUSTER=${value}`);
+				if (done) done();
+			});
+		});
+	} else {
+		throw new TypeError('first argument must be boolean');
+	}
+}
+
+gulp.task('dont-use-cluster', (done) => {
+	setEnvCluster(false, done);
+});
+
+gulp.task('use-cluster', (done) => {
+	setEnvCluster(true, done);
+});
+
+function dontGitignoreBuild(gitignore, done) {
+	fs.writeFile('./.gitignore', gitignore, (err) => {
+		if (err) throw err;
+		console.log('# > ENV > .gitignore file was updated');
+		done();
+	});
+}
+
+gulp.task('dont-gitignore-build', (done) => {
+	fs.readFile('./.gitignore', (err, data) => {
+		let gitignore = '';
+		if (err) {
+			console.log('./.gitignore does not exist');
+			dontGitignoreBuild(gitignore, done);
+		} else {
+			gitignore = data.toString()
+				.replace(/public\/js\/\*\.min\.js\n/, '')
+				.replace(/public\/css\/\*\.min\.css\n/, '')
+				.replace(/public\/fonts\/\*\.\*\n/, '');
+			console.log('./.gitignore exists, updated gitignore', gitignore);
+			dontGitignoreBuild(gitignore, done);
+		}
+	});
+});
 
 gulp.task('database', (done) => {
 	if (mongo) mongo.kill();
