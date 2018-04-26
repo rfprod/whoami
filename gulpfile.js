@@ -294,7 +294,8 @@ gulp.task('default', (done) => {
 	runSequence('build', 'database', 'server', 'watch', done);
 });
 
-process.on('exit', () => {
+process.on('exit', (code) => {
+	console.log(`PROCESS EXITED WITH CODE ${code}`);
 	if (node) node.kill();
 	if (mongo) mongo.kill();
 	if (protractor) protractor.kill();
