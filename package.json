@@ -36,7 +36,7 @@
 		"angular-sanitize": "^1.6.10",
 		"angular-spinner": "^1.0.1",
 		"angular-websocket": "^2.0.1",
-		"babel-core": "^6.26.0",
+		"babel-core": "^6.26.2",
 		"babel-preset-env": "^1.6.1",
 		"chart.js": "^2.7.2",
 		"concurrently": "^3.5.1",
